@@ -3,13 +3,14 @@ const path = require('path');
 const app = express();
 import dotenv from 'dotenv';
 import {auth, requiresAuth} from 'express-openid-connect';
-import https from 'https';
+import https from 'https'; 
 
-app.use(express.static(path.join(__dirname, '../react-app/build')));
-
-app.use((req, res) => {
-    res.status(200).send('Hello, world!');
-});
+app.set('views', path.join( __dirname, 'views'));
+app.set('view engine', 'ejs');  
+ 
+app.use((req, res) => { 
+    res.render('index');
+}); 
 
 // Start the server
 const PORT = process.env.PORT || 4010;
