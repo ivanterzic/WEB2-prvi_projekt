@@ -4,6 +4,7 @@ const app = express();
 import dotenv from 'dotenv';
 import {auth, requiresAuth} from 'express-openid-connect';
 import https from 'https'; 
+import { createRoute } from './routes/create.routes';
 
 require('dotenv').config();
 
@@ -29,7 +30,7 @@ const config = {
 };
 
 app.use(auth(config));
-
+app.use('/create', createRoute);
 
 
 app.get('/', (req, res) => {
