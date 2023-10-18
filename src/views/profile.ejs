@@ -1,0 +1,17 @@
+
+<!DOCTYPE html>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<html>
+    <head>
+        <title>My EJS Page yea!</title>
+    </head>
+    <body>
+        <%- include('partials/header', {username : username, /*picture : picture*/}) %>
+        <div class="container d-flex flex-wrap flex-column w-100">
+            <h1>
+                Profil korisnika <%= username %>
+            </h1>
+        </div>
+    </body> 
+</html>
+ 

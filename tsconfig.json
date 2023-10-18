@@ -6,7 +6,7 @@
         "declaration": true,
         "strictNullChecks": true,
         "noImplicitAny": false,
-        "noEmitOnError": true
+        "noEmitOnError": true,
     }
 }
 
