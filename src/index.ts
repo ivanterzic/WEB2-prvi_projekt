@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import {auth, requiresAuth} from 'express-openid-connect';
 import https from 'https'; 
 import { createRoute } from './routes/create.routes';
+import { tournamentRoute } from './routes/tournament.routes';
 
 require('dotenv').config();
 
@@ -30,7 +31,9 @@ const config = {
 };
 
 app.use(auth(config));
-app.use('/create', createRoute);
+
+app.use('/create', requiresAuth(), createRoute);
+app.use('/tournament', tournamentRoute);
 
 
 app.get('/', (req, res) => {

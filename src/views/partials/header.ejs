@@ -1,6 +1,6 @@
 
 <div class="bg-light shadow rounded bottom d-flex flex-wrap w-100 h-25">
-    <div class="container d-flex flex-nowrap justify-content-between">
+    <div class="container d-flex flex-nowrap justify-content-between w-100">
         <a class="navbar-brand text-dark" href="/">
             <h2>Tournament Tracker</h2>
         </a>
@@ -9,8 +9,11 @@
                 <% if (username) { %>
                     <div class="d-flex">
                         <li class="container nav-item rounded d-flex justify-content-center mr-5 allign-items-center btn btn-light btn-sm">
+                            <a class="nav-link" href="/create"><h5 class="text-dark">Kreiraj</h5></a>
+                        </li>
+                        <li class="container nav-item rounded d-flex justify-content-center mr-5 allign-items-center btn btn-light btn-sm">
                             <!--<img src=<%= //picture %> alt="" class = "rounded-circle">-->
-                            <a class="nav-link" href="/profile"><h5 class="text-dark">Profile</h5></a>
+                            <a class="nav-link" href="/profile"><h5 class="text-dark">Profil</h5></a>
                         </li>
                         <li class="container nav-item rounded d-flex justify-content-center allign-items-center btn btn-light btn-sm">
                             <a class="nav-link" href="/logout"><h5 class="text-secondary container highlight" onfocus="">Logout</h5></a>
@@ -29,12 +32,8 @@
             </li>
         </ul>
     </div>
-    <% if (username) { %>
-        <div class="container w-100">
-            <span>Logged in as <%= username %></span>
-        </div>
-    <% } %>
 </div>
+
 
 
 

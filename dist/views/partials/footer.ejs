@@ -1,0 +1,21 @@
+<style>
+    footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+</style>
+
+<footer>
+    <div class="shadow bg-light">
+        <div class="row p-3">
+            <div class="col-md-6">
+                <% if (username) { %>
+                    <p>Logged in as <%= username %></p>
+                <% } else { %>
+                    <p>Not logged in</p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -5,6 +5,7 @@ var path = require('path');
 var app = express();
 var express_openid_connect_1 = require("express-openid-connect");
 var create_routes_1 = require("./routes/create.routes");
+var tournament_routes_1 = require("./routes/tournament.routes");
 require('dotenv').config();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -24,7 +25,8 @@ var config = {
     },
 };
 app.use((0, express_openid_connect_1.auth)(config));
-app.use('/create', create_routes_1.createRoute);
+app.use('/create', (0, express_openid_connect_1.requiresAuth)(), create_routes_1.createRoute);
+app.use('/tournament', tournament_routes_1.tournamentRoute);
 app.get('/', function (req, res) {
     var _a;
     var username;

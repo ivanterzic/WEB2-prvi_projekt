@@ -1,14 +1,72 @@
-
 <!DOCTYPE html>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-<link rel = "stylesheet" href = "/stylesheets/index.css">
 <html>
     <head>
         <title>My EJS Page yea!</title>
+        <script>
+            function resetForm(){
+                document.getElementById("competitionName").value = "";
+                document.getElementById("competitors").value = "";
+                document.getElementById("winPoints").value = "";
+                document.getElementById("drawPoints").value = "";
+                document.getElementById("lossPoints").value = "";
+            }
+        </script>
     </head>
     <body>
         <%- include('partials/header', {username : username, /*picture : picture*/}) %>
-        <p>opa</p>
+        
+        <main class="container shadow p-3"> 
+            <div class="d-flex flex-row align-content-center justify-content-center">
+                <% if (error_message) {
+                    %> <h4 class="text-danger"><%= error_message %></h4> 
+                <%} %>
+                <% if (message) {
+                    %> <h4 class="text-success"><%= message %></h4> 
+                <%} %>
+            </div>
+            <form action="/create" method="post">
+                <div>
+                    <div class="form-group col-md-7">
+                        <label for="competitionName">Naziv natjecanja:</label>
+                        <input type="text" class="form-control" id="competitionName" name="competitionName" value="<% if (competitionName) {%><%=competitionName%><% } %>">
+                    </div>
+                    <div class="col-md-5">
+
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="col-md-7">
+                        <label for="competitors">Popis natjecatelja:</label>
+                        <textarea class="form-control" height="240px" rows="10" id="competitors" name="competitors"><% if (competitors) {%><%=competitors%><% } %></textarea>
+                    </div>
+                    <div class="col-md-5">
+                        Odvojite natjecatelje s ; ili novim redom
+                    </div>
+                </div>
+                <div class="form-group d-flex flex-row justify-content-around">
+                    <div>
+                        <label for="winPoints">Bodovi za pobjedu:</label>
+                        <input type="number" class="form-control" id="winPoints" name="winPoints" size="1" width="10%" value="<% if (winPoints) {%><%=winPoints%><% } %>">
+                    </div>
+                    <div>
+                        <label for="drawPoints">Bodovi za neriješeno:</label>
+                        <input type="number" class="form-control" id="drawPoints" name="drawPoints" size="1" width="10%" value="<% if (drawPoints) {%><%=drawPoints%><% } %>">
+                    </div>
+                    <div>
+                        <label for="lossPoints">Bodovi za poraz:</label>
+                        <input type="number" class="form-control" id="lossPoints" name="lossPoints" size="1" width="10%" value="<% if (lossPoints) {%><%=lossPoints%><% } %>">
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">Stvori natjecanje</button>
+                    <button type="reset" class="btn btn-secondary" onclick="resetForm()">Poništi</button>
+                </div>
+                
+            </form>
+        </main>
+        <%- include('partials/footer', {username : username}) %>
     </body> 
 </html>
  
