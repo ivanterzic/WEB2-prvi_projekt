@@ -26,6 +26,7 @@ function databaseFileToTournamentParser(input) {
     var newTour = {
         tournamentId: Number(input["tournamentid"]),
         tournamentCreator: input["tournamentcreator"],
+        tournamentCreatorEmail: input["tournamentcreatoremail"],
         competitionName: input["tournamentname"],
         competitors: input["competitors"].split(","),
         scoringSystem: JSON.parse(input["scoringsystem"]),

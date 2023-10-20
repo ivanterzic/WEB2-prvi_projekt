@@ -39,7 +39,8 @@ createRoute.post('/', requiresAuth(), [
     else {
         const newTournament : Tournament = {
             tournamentId : undefined,
-            tournamentCreator : req.oidc.user?.sid,
+            tournamentCreator : req.oidc.user?.name,
+            tournamentCreatorEmail : req.oidc.user?.email,
             competitionName : req.body.competitionName,
             scoringSystem : {
                 winPoints : Number(req.body.winPoints),
@@ -49,7 +50,7 @@ createRoute.post('/', requiresAuth(), [
             competitors : comps,
             rounds : roundCreatorBergerTables(comps)
         }
-        const sql = `INSERT INTO tournament (tournamentCreator, tournamentName, competitors, scoringSystem, rounds) VALUES ('${req.oidc.user.sid}', '${req.body.competitionName.trim()}', '${comps}', '${JSON.stringify(newTournament.scoringSystem)}', '${JSON.stringify(newTournament.rounds)}')`;
+        const sql = `INSERT INTO tournament (tournamentCreator, tournamentCreatorEmail, tournamentName, competitors, scoringSystem, rounds) VALUES ('${req.oidc.user.name}', '${req.oidc.user.email}' , '${req.body.competitionName.trim()}', '${comps}', '${JSON.stringify(newTournament.scoringSystem)}', '${JSON.stringify(newTournament.rounds)}')`;
         try {
             const result = await db.query(sql, []);
             console.log(result)

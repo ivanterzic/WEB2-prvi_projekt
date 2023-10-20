@@ -15,6 +15,7 @@ type Match = {
 type Tournament = {
     tournamentId : Number | undefined, 
     tournamentCreator: string,
+    tournamentCreatorEmail : string,
     competitionName: string,
     competitors: string[],
     scoringSystem: TournamentScoringSystem,
@@ -49,6 +50,7 @@ function databaseFileToTournamentParser(input : any) : Tournament {
     let newTour : Tournament = {
         tournamentId : Number(input["tournamentid"]),
         tournamentCreator : input["tournamentcreator"],
+        tournamentCreatorEmail : input["tournamentcreatoremail"],
         competitionName : input["tournamentname"],
         competitors : input["competitors"].split(","),
         scoringSystem : JSON.parse(input["scoringsystem"]),

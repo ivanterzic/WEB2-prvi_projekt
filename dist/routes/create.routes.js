@@ -61,9 +61,9 @@ exports.createRoute.post('/', (0, express_openid_connect_1.requiresAuth)(), [
     (0, express_validator_1.body)('competitors', 'Popis natjecatelja ne smije biti prazan!').trim().isLength({ min: 1 }).escape(),
 ], function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var errors, errorsArray, comps, newTournament, sql, result, e_1;
-    var _a, _b, _c;
-    return __generator(this, function (_d) {
-        switch (_d.label) {
+    var _a, _b, _c, _d;
+    return __generator(this, function (_e) {
+        switch (_e.label) {
             case 0:
                 errors = (0, express_validator_1.validationResult)(req);
                 errorsArray = errors["errors"];
@@ -84,7 +84,8 @@ exports.createRoute.post('/', (0, express_openid_connect_1.requiresAuth)(), [
             case 1:
                 newTournament = {
                     tournamentId: undefined,
-                    tournamentCreator: (_b = req.oidc.user) === null || _b === void 0 ? void 0 : _b.sid,
+                    tournamentCreator: (_b = req.oidc.user) === null || _b === void 0 ? void 0 : _b.name,
+                    tournamentCreatorEmail: (_c = req.oidc.user) === null || _c === void 0 ? void 0 : _c.email,
                     competitionName: req.body.competitionName,
                     scoringSystem: {
                         winPoints: Number(req.body.winPoints),
@@ -94,24 +95,24 @@ exports.createRoute.post('/', (0, express_openid_connect_1.requiresAuth)(), [
                     competitors: comps,
                     rounds: (0, tournamenthelper_js_1.roundCreatorBergerTables)(comps)
                 };
-                sql = "INSERT INTO tournament (tournamentCreator, tournamentName, competitors, scoringSystem, rounds) VALUES ('".concat(req.oidc.user.sid, "', '").concat(req.body.competitionName.trim(), "', '").concat(comps, "', '").concat(JSON.stringify(newTournament.scoringSystem), "', '").concat(JSON.stringify(newTournament.rounds), "')");
-                _d.label = 2;
+                sql = "INSERT INTO tournament (tournamentCreator, tournamentCreatorEmail, tournamentName, competitors, scoringSystem, rounds) VALUES ('".concat(req.oidc.user.name, "', '").concat(req.oidc.user.email, "' , '").concat(req.body.competitionName.trim(), "', '").concat(comps, "', '").concat(JSON.stringify(newTournament.scoringSystem), "', '").concat(JSON.stringify(newTournament.rounds), "')");
+                _e.label = 2;
             case 2:
-                _d.trys.push([2, 4, , 5]);
+                _e.trys.push([2, 4, , 5]);
                 return [4 /*yield*/, index_js_1.db.query(sql, [])];
             case 3:
-                result = _d.sent();
+                result = _e.sent();
                 console.log(result);
                 return [3 /*break*/, 5];
             case 4:
-                e_1 = _d.sent();
+                e_1 = _e.sent();
                 console.log(e_1);
                 res.render('create', { username: (req.oidc.user.name), error_message: "Greška kod spremanja u bazu podataka!", message: undefined,
                     competitionName: req.body.competitionName, winPoints: req.body.winPoints, drawPoints: req.body.drawPoints, lossPoints: req.body.lossPoints, competitors: req.body.competitors });
                 return [3 /*break*/, 5];
             case 5:
-                res.render('create', { username: ((_c = req.oidc.user) === null || _c === void 0 ? void 0 : _c.name), error_message: undefined, message: "Natjecanje uspješno kreirano!", competitionName: undefined, winPoints: undefined, drawPoints: undefined, lossPoints: undefined, competitors: undefined });
-                _d.label = 6;
+                res.render('create', { username: ((_d = req.oidc.user) === null || _d === void 0 ? void 0 : _d.name), error_message: undefined, message: "Natjecanje uspješno kreirano!", competitionName: undefined, winPoints: undefined, drawPoints: undefined, lossPoints: undefined, competitors: undefined });
+                _e.label = 6;
             case 6: return [2 /*return*/];
         }
     });

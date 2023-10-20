@@ -9,48 +9,56 @@
         <%- include('partials/header', {username : username, /*picture : picture*/}) %>
         <main class="container shadow p-3">   
             <div class="overflow-auto" style="height: 50vh;">
+                <div>
+                    <h5 class="lead">Tournament share url: <a href="<%=url%>"><%=url%></a></h5>
+                </div>
+                <div>
+                    <h5 class="lead">Tournament code: <%=tournamentid%></h5>
+                </div>
+                <% if (error) {
+                    %> <h4 class="text-danger"><%= error %></h4> 
+                <%} %>
                 <% for (round of rounds) { %>
                     <div>
-                        <input type="text" hidden value="<%=null%>">
                         <hr>
                         <span class="lead"><%=round.round%>. kolo</span>
-                        <form action="">
-                            <div class="d-flex flex-row justify-content-center">
-                                <div class="d-flex flex-row justify-content-center m-2">
-                                    <div class="form-check-label">
-                                        <span style="font-size: 1.2em;"><%=round.team1%></span>
+                        <form method="post" action="/tournament">
+                            <input type="text" name = "tournamentid" hidden value="<%=tournamentid%>">
+                            <input type="text" name = "team1" hidden value="<%=round.team1%>">
+                            <input type="text" name = "team2" hidden value="<%=round.team2%>">
+                            <div class="d-flex justify-content-center">
+                                <div class="d-flex flex-row justify-content-around w-75">
+                                    <div class="d-flex flex-row justify-content-center m-2 w-25">
+                                        <div class="form-check-label">
+                                            <span style="font-size: 1.2em;"><%=round.team1%></span>
+                                        </div>
                                     </div>
-                                    <div class="d-flex flex-row justify-content-end">
-                                        <input class="form-control" type="number" style="width: 40%" value="<%=round["scoreteam1"]%>" <% if (round["scoreteam1"] != null) {%> disabled <% } %>>
+                                    <div class="d-flex flex-row justify-content-center m-2 w-50">
+                                        <div class="d-flex flex-row justify-content-end">
+                                            <input class="form-control" type="number" style="width: 40%" name = "scoreteam1" value="<%=round.scoreTeam1%>">
+                                        </div>
+                                        <div class="d-flex flex-row justify-content-start">
+                                            <input class="form-control" type="number" style="width: 40%" name = "scoreteam2" value="<%=round.scoreTeam2%>">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="d-flex flex-row justify-content-center m-2">
-                                    <div class="d-flex flex-row justify-content-start">
-                                        <input class="form-control" type="number" style="width: 40%" value="<%=round["scoreteam2"]%>">
-                                    </div>
-                                    <div class="form-check-label">
-                                        <span style="font-size: 1.2em;"><%=round.team2%></span>
+                                    <div class="d-flex flex-row justify-content-center m-2 w-25">
+                                        <div class="form-check-label">
+                                            <span style="font-size: 1.2em;"><%=round.team2%></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <% if (round["scoreteam1"] == null || round["scoreteam2"] == null) { %>
-                                <div class="d-flex flex-row justify-content-center">
+                            <div class="d-flex flex-row justify-content-start p-2">
+                            <% if (round.scoreTeam1 == null || round.scoreTeam2 == null) { %>
                                     <input type="submit" class="btn btn-primary" value="Spremi rezultat">
-                                </div>
                             <% } else { %>
-                                <div class="d-flex flex-row justify-content-center">
-                                    <div type="submit" class="btn btn-light disabled">Odigrano</div>
-                                </div>
+                                    <input type="submit" class="btn btn-success" value="Ažuriraj rezultat">
                             <% } %>
-                            
+                            </div>
+                        </form>
                         <hr>
                     </div>
-                    
-                    </form>
                 <% } %>
-            </div>
-            <div>
-
             </div>
         </main>
         <%- include('partials/footer', {username : username}) %>

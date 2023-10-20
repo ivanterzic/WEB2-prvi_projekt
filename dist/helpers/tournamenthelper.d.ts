@@ -13,6 +13,7 @@ type Match = {
 type Tournament = {
     tournamentId: Number | undefined;
     tournamentCreator: string;
+    tournamentCreatorEmail: string;
     competitionName: string;
     competitors: string[];
     scoringSystem: TournamentScoringSystem;

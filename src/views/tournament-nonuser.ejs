@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 <html>
@@ -9,20 +8,11 @@
         <%- include('partials/header', {username : username, /*picture : picture*/}) %>
         <main class="container shadow p-3">   
             <div class="overflow-auto" style="height: 50vh;">
-                <div>
-                    <h5 class="lead">Tournament share url: <a href="<%=url%>"><%=url%></a></h5>
-                </div>
-                <div>
-                    <h5 class="lead">Tournament code: <%=tournamentid%></h5>
-                </div>
-                <% if (error) {
-                    %> <h4 class="text-danger"><%= error %></h4> 
-                <%} %>
                 <% for (round of rounds) { %>
                     <div>
                         <hr>
                         <span class="lead"><%=round.round%>. kolo</span>
-                        <form method="post" action="/tournament">
+                        <form method="" action="">
                             <input type="text" name = "tournamentid" hidden value="<%=tournamentid%>">
                             <input type="text" name = "team1" hidden value="<%=round.team1%>">
                             <input type="text" name = "team2" hidden value="<%=round.team2%>">
@@ -35,10 +25,10 @@
                                     </div>
                                     <div class="d-flex flex-row justify-content-center m-2 w-50">
                                         <div class="d-flex flex-row justify-content-end">
-                                            <input class="form-control" type="number" style="width: 40%" name = "scoreteam1" value="<%=round.scoreTeam1%>">
+                                            <input class="form-control" type="number" style="width: 40%" name = "scoreteam1" value="<%=round.scoreTeam1%>" disabled>
                                         </div>
                                         <div class="d-flex flex-row justify-content-start">
-                                            <input class="form-control" type="number" style="width: 40%" name = "scoreteam2" value="<%=round.scoreTeam2%>">
+                                            <input class="form-control" type="number" style="width: 40%" name = "scoreteam2" value="<%=round.scoreTeam2%>" disabled>
                                         </div>
                                     </div>
                                     <div class="d-flex flex-row justify-content-center m-2 w-25">
@@ -49,11 +39,6 @@
                                 </div>
                             </div>
                             <div class="d-flex flex-row justify-content-start p-2">
-                            <% if (round.scoreTeam1 == null || round.scoreTeam2 == null) { %>
-                                    <input type="submit" class="btn btn-primary" value="Spremi rezultat">
-                            <% } else { %>
-                                    <input type="submit" class="btn btn-success" value="Ažuriraj rezultat">
-                            <% } %>
                             </div>
                         </form>
                         <hr>
