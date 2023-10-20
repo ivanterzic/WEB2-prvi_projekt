@@ -13,7 +13,8 @@ type Match = {
 }
 
 type Tournament = {
-    torunamentCreator: string,
+    tournamentId : Number | undefined, 
+    tournamentCreator: string,
     competitionName: string,
     competitors: string[],
     scoringSystem: TournamentScoringSystem,
@@ -43,6 +44,18 @@ let bergerTableFor7And8Players = [
     [[8, 7], [1, 6], [2, 5], [3, 4]],
     [[4, 8], [5, 3], [6, 2], [7, 1]]
 ]
+
+function databaseFileToTournamentParser(input : any) : Tournament {
+    let newTour : Tournament = {
+        tournamentId : Number(input["tournamentid"]),
+        tournamentCreator : input["tournamentcreator"],
+        competitionName : input["tournamentname"],
+        competitors : input["competitors"].split(","),
+        scoringSystem : JSON.parse(input["scoringsystem"]),
+        rounds : JSON.parse(input["rounds"]),
+    }
+    return newTour;
+}
 
 function roundCreatorBergerTables( teams : string[]) : Match[] {
     let matches : Match[] = [];
@@ -89,7 +102,14 @@ function roundCreatorBergerTables( teams : string[]) : Match[] {
             round++;
         }
     }
-    return matches;
+    let returnMatches : Match[]= []
+    for (let match of matches){
+        if (match["team1"] != null && match["team2"] != null) 
+            returnMatches.push(match)
+    }
+    return returnMatches;
 }
 
-export { Tournament, TournamentScoringSystem, Match, roundCreatorBergerTables };
+
+
+export { Tournament, TournamentScoringSystem, Match, roundCreatorBergerTables, databaseFileToTournamentParser };

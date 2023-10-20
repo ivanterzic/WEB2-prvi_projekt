@@ -11,11 +11,13 @@ type Match = {
     scoreTeam2: number | null;
 };
 type Tournament = {
-    torunamentCreator: string;
+    tournamentId: Number | undefined;
+    tournamentCreator: string;
     competitionName: string;
     competitors: string[];
     scoringSystem: TournamentScoringSystem;
     rounds: Match[];
 };
+declare function databaseFileToTournamentParser(input: any): Tournament;
 declare function roundCreatorBergerTables(teams: string[]): Match[];
-export { Tournament, TournamentScoringSystem, Match, roundCreatorBergerTables };
+export { Tournament, TournamentScoringSystem, Match, roundCreatorBergerTables, databaseFileToTournamentParser };

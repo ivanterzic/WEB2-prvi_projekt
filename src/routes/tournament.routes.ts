@@ -1,24 +1,31 @@
 import express from 'express';
-import memoryArray from '../data/memory';
+import { db } from '../db';
+import { databaseFileToTournamentParser } from '../helpers/tournamenthelper';
 
 
 export const tournamentRoute = express.Router();
 
-
-
 tournamentRoute.use(express.urlencoded({ extended: true }));
 tournamentRoute.use(express.static('../data'));
 
-
-tournamentRoute.get('/', (req, res) => {   
-    console.log(memoryArray)
-    console.log(memoryArray[0].rounds)
-    let rounds = memoryArray[0].rounds
-    for (let round of rounds) {
-        console.log(round)
+tournamentRoute.get('/', async (req, res) => {   
+        let idFromQuery = req.query.code;
+        let query = `SELECT * FROM tournament WHERE tournamentid = ${idFromQuery}`;
+        console.log(query)
+        try {
+            const result = await db.query(query, []);
+            let tournament = result["rows"][0]
+            console.log(tournament)
+            let parsedTournament = databaseFileToTournamentParser(tournament);
+            console.log(parsedTournament)
+            res.render('tournament', { username: (req.oidc.user?.name), tournamentName : parsedTournament.competitionName, rounds : parsedTournament.rounds});
+        }
+        catch (e) {
+            console.log(e);
+            res.render('tournament-na', { username: (req.oidc.user?.name) });
+        }
+       
     }
-    res.render('tournament', { username: (req.oidc.user?.name), tournamentName : memoryArray[0].competitionName, rounds : memoryArray[0].rounds});
-}
 );
 
     

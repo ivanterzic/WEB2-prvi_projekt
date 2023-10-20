@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.roundCreatorBergerTables = void 0;
+exports.databaseFileToTournamentParser = exports.roundCreatorBergerTables = void 0;
 var bergerTableFor4Players = [
     [[1, 4], [2, 3]],
     [[4, 3], [1, 2]],
@@ -22,6 +22,18 @@ var bergerTableFor7And8Players = [
     [[8, 7], [1, 6], [2, 5], [3, 4]],
     [[4, 8], [5, 3], [6, 2], [7, 1]]
 ];
+function databaseFileToTournamentParser(input) {
+    var newTour = {
+        tournamentId: Number(input["tournamentid"]),
+        tournamentCreator: input["tournamentcreator"],
+        competitionName: input["tournamentname"],
+        competitors: input["competitors"].split(","),
+        scoringSystem: JSON.parse(input["scoringsystem"]),
+        rounds: JSON.parse(input["rounds"]),
+    };
+    return newTour;
+}
+exports.databaseFileToTournamentParser = databaseFileToTournamentParser;
 function roundCreatorBergerTables(teams) {
     var matches = [];
     var round = 1;
@@ -67,6 +79,12 @@ function roundCreatorBergerTables(teams) {
             round++;
         }
     }
-    return matches;
+    var returnMatches = [];
+    for (var _i = 0, matches_1 = matches; _i < matches_1.length; _i++) {
+        var match = matches_1[_i];
+        if (match["team1"] != null && match["team2"] != null)
+            returnMatches.push(match);
+    }
+    return returnMatches;
 }
 exports.roundCreatorBergerTables = roundCreatorBergerTables;
