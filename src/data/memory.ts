@@ -14,3 +14,4 @@ let memoryArray : Tournament[] = [{
 
 
 export default memoryArray;
+

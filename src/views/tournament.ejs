@@ -7,9 +7,51 @@
     </head>
     <body>
         <%- include('partials/header', {username : username, /*picture : picture*/}) %>
-        <main class="container shadow p-3">     
-              
-        
+        <main class="container shadow p-3">   
+            <div class="overflow-auto" style="height: 50vh;">
+                <% for (round of rounds) { %>
+                    <div>
+                        <input type="text" hidden value="<%=null%>">
+                        <hr>
+                        <span class="lead"><%=round.round%>. kolo</span>
+                        <form action="">
+                            <div class="d-flex flex-row justify-content-center">
+                                <div class="d-flex flex-row justify-content-center m-2">
+                                    <div class="form-check-label">
+                                        <span style="font-size: 1.2em;"><%=round.team1%></span>
+                                    </div>
+                                    <div class="d-flex flex-row justify-content-end">
+                                        <input class="form-control" type="number" style="width: 40%" value="<%=round["scoreteam1"]%>" <% if (round["scoreteam1"] != null) {%> disabled <% } %>>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row justify-content-center m-2">
+                                    <div class="d-flex flex-row justify-content-start">
+                                        <input class="form-control" type="number" style="width: 40%" value="<%=round["scoreteam2"]%>">
+                                    </div>
+                                    <div class="form-check-label">
+                                        <span style="font-size: 1.2em;"><%=round.team2%></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <% if (round["scoreteam1"] == null || round["scoreteam2"] == null) { %>
+                                <div class="d-flex flex-row justify-content-center">
+                                    <input type="submit" class="btn btn-primary" value="Spremi rezultat">
+                                </div>
+                            <% } else { %>
+                                <div class="d-flex flex-row justify-content-center">
+                                    <div type="submit" class="btn btn-light disabled">Odigrano</div>
+                                </div>
+                            <% } %>
+                            
+                        <hr>
+                    </div>
+                    
+                    </form>
+                <% } %>
+            </div>
+            <div>
+
+            </div>
         </main>
         <%- include('partials/footer', {username : username}) %>
     </body> 
