@@ -71,7 +71,6 @@ app.get('/profile', requiresAuth(), async (req, res) => {
         }
         catch (e) {
           console.log(e);
-          res.render('tournament-na', { username: (req.oidc.user?.name), picture: (req.oidc.user?.picture) });
         }
 });
 
