@@ -1,9 +1,7 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-import dotenv from 'dotenv';
 import {auth, requiresAuth} from 'express-openid-connect';
-import https from 'https'; 
 import { createRoute } from './routes/create.routes';
 import { tournamentRoute } from './routes/tournament.routes';
 
@@ -11,7 +9,6 @@ require('dotenv').config();
 
 app.set('views', path.join( __dirname, 'views'));
 app.set('view engine', 'ejs');  
-app.use(express.static(path.join(__dirname, 'public')));
 
 const PORT = process.env.PORT || 4010;
 
@@ -24,8 +21,7 @@ const config = {
     clientSecret: process.env.CLIENT_SECRET,
     issuerBaseURL: 'https://dev-qoz5mzp8da7n1lqw.us.auth0.com',
     authorizationParams: {
-        response_type: 'code' ,
-        //scope: "openid profile email"   
+        response_type: 'code' , 
        },
     
 };
@@ -54,7 +50,7 @@ app.get('/', (req, res) => {
 
 
 import { db } from './db';
-import { Tournament, databaseFileToTournamentParser, matchesToTableElement } from './helpers/tournamenthelper';
+import { databaseFileToTournamentParser } from './helpers/tournamenthelper';
 
 app.get('/profile', requiresAuth(), async (req, res) => {
   let idFromQuery = req.query.code;
