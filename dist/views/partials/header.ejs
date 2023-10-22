@@ -1,0 +1,41 @@
+<div class="bg-light shadow rounded bottom d-flex flex-wrap h-25 p-3" style="width: 100vw;">
+    <div class="container d-flex justify-content-between w-100 flex-wrap">
+        <a class="navbar-brand text-dark" href="/">
+            <div class="d-flex flex-row">
+                <h1 class="ms-3">Tournament Tracker</h1>
+                <% if (username) {%>
+                    <img src=" <%= picture %> " alt="avatar" class="rounded-circle ml-3" style="width: 50px; height: 50px;">
+                <% } %>
+            </div>
+            <% if (username) { %>
+                <h6 class="lead">Logged in as <%=username%></h6>
+            <% } %>
+        </a>
+        <div class="ms-auto d-flex flex-row">
+            <div class = "nav-item d-flex justify-content-end"></div>
+                <% if (username) { %>
+                    <div class="d-flex flex-direction-row h-50">
+                        <div class="container nav-item rounded d-flex justify-content-center mr-5 allign-items-center btn btn-light btn-sm">
+                            <a class="nav-link" href="/create"><h5 class="text-dark">Kreiraj</h5></a>
+                        </div>
+                        <div class="container nav-item rounded d-flex justify-content-center mr-5 allign-items-center btn btn-light btn-sm">
+                            <a class="nav-link" href="/profile"><h5 class="text-dark">Profil</h5></a>
+                        </div>
+                        <div class="container nav-item rounded d-flex justify-content-center allign-items-center btn btn-light btn-sm">
+                            <a class="nav-link" href="/logout"><h5 class="text-secondary container highlight" onfocus="">Odjava</h5></a>
+                        </div>
+                    </div>
+                <%  } else { %>
+                    <div class="d-flex flex-direction-row h-75">
+                        <div class="nav-item rounded d-flex justify-content-center mr-5 allign-items-center btn btn-light">
+                            <a class="nav-link" href="/login"> <h5 class="text-dark">Prijava</h5></a>
+                        </div>
+                        <div class="nav-item rounded d-flex justify-content-center allign-items-center btn btn-light">
+                            <a class="nav-link" href="/sign-up"><h5 class="text-dark ">Registracija</h5></a>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>

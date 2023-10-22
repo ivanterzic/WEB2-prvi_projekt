@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<html>
+    <head>
+        <title>Kreiraj - Tournament Tracker</title>
+        <script>
+            function resetForm(){
+                document.getElementById("competitionName").value = "";
+                document.getElementById("competitors").value = "";
+                document.getElementById("winPoints").value = "";
+                document.getElementById("drawPoints").value = "";
+                document.getElementById("lossPoints").value = "";
+            }
+        </script>
+    </head>
+    <body>
+        <%- include('partials/header', {username : username, picture : picture}) %>
+        <main class="container shadow p-3"> 
+            <h2>Kreiraj natjecanje</h2>
+            <hr>
+            <div class="d-flex flex-row align-content-center justify-content-center">
+                <% if (error_message) {
+                    %> <h6 class="lead text-danger"><%= error_message %></h6> 
+                <%} %>
+                <% if (message) {
+                    %> <h6 class="lead text-success"><%= message %></h6> 
+                <%} %>
+            </div>
+            <form action="/create" method="post">
+                <div class="form-group">
+                    <h6 class = "lead" for="competitionName">Naziv natjecanja:</h6>
+                    <input type="text" class="form-control" id="competitionName" name="competitionName" value="<% if (competitionName) {%><%=competitionName%><% } %>">
+                </div>
+                <div class="form-group">
+                    <h6 class = "lead" for="competitors">Popis natjecatelja:</h6>
+                    <p class="form-text">Odvojite natjecatelje s ; ili novim redom, podržani brojevi natjecatelja su od 4 do 8 natjecatelja.</p>
+                    <textarea class="form-control" height="240px" rows="10" id="competitors" name="competitors"><% if (competitors) {%><%=competitors%><% } %></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <h6 class="lead" for="winPoints">Bodovi za pobjedu:</h6>
+                        <input type="number" class="form-control" id="winPoints" name="winPoints" style="width: 80px" value="<% if (winPoints) {%><%=winPoints%><% } %>">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <h6 class = "lead" for="drawPoints">Bodovi za neriješeno:</h6>
+                        <input type="number" class="form-control" id="drawPoints" name="drawPoints" style="width: 80px" value="<% if (drawPoints) {%><%=drawPoints%><% } %>">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <h6 class = "lead" for="lossPoints">Bodovi za poraz:</h6>
+                        <input type="number" class="form-control" id="lossPoints" name="lossPoints" style="width: 80px" value="<% if (lossPoints) {%><%=lossPoints%><% } %>">
+                    </div>
+                </div>
+                
+                <div class="form-group d-flex flex-row justify-content-center">
+                    <button type="submit" class="btn btn-success btn-lg">Stvori natjecanje</button>
+                    <button type="reset" class="btn btn-light btn-lg" onclick="resetForm()">Poništi</button>
+                </div>
+                
+            </form>
+        </main>
+    </body> 
+</html>
