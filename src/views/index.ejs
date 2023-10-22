@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 <html>
     <head>
-        <title>My EJS Page yea!</title>
+        <title>Tournament Tracker</title>
     </head>
     <body>
         <%- include('partials/header', {username : username, /*picture : picture*/}) %>
@@ -18,9 +18,7 @@
                     <%- include('partials/search') %>
                 </div>
               </div>
-        
               <hr>
-          
               <div class="row p-2">
                 <div class="col-md-7 order-md-2">
                   <h2>Kreiraj svoje natjecanje. <span class="text-muted"></span></h2>
@@ -28,8 +26,8 @@
                 </div>
                 <div class="col-md-5 order-md-1">
                     <div class="d-flex flex-column justify-content-center align-items-center h-100">
-                        <li class="nav-item rounded d-flex justify-content-center allign-items-center btn btn-primary">
-                            <a class="nav-link" href="/sign-up"><h5 class="text-light">Prijavi se!</h5></a>
+                        <li class="nav-item rounded d-flex justify-content-center allign-items-center btn btn-success">
+                            <a class="nav-link" href="/sign-up"><h5 class="text-light">Registriraj se!</h5></a>
                         </li>
                     </div>
                 </div>
@@ -43,15 +41,12 @@
                   <p>Ako ti se neda smišljati i pamtiti novi password, u aplikaciju se možeš jednostavno prijaviti Google računom.</p>
                 </div>
                 <div class="col-md-5 order-md-1">
-        
+      
                 </div>
               </div>
           
               <hr>
-          
-        
           </main>
-          <%- include('partials/footer', {username : username}) %>
     </body> 
 </html>
  

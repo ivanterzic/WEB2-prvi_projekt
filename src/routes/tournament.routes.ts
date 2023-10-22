@@ -1,6 +1,6 @@
 import express, { query } from 'express';
 import { db } from '../db';
-import { Tournament, databaseFileToTournamentParser } from '../helpers/tournamenthelper';
+import { Tournament, databaseFileToTournamentParser, matchesToTableElement } from '../helpers/tournamenthelper';
 import { requiresAuth } from 'express-openid-connect';
 import { body, validationResult } from 'express-validator';
 
@@ -17,15 +17,11 @@ tournamentRoute.get('/', async (req, res) => {
             const result = await db.query(query, []);
             let tournament = result["rows"][0]
             let parsedTournament = databaseFileToTournamentParser(tournament);
-            console.log(req.oidc.user?.name)
-            console.log(parsedTournament.tournamentCreator)
-            console.log(req.oidc.user?.email)
-            console.log(parsedTournament.tournamentCreatorEmail)
             if (req.oidc.user?.name == parsedTournament.tournamentCreator && req.oidc.user?.email == parsedTournament.tournamentCreatorEmail) {
-                res.render('tournament', { username: (req.oidc.user?.name), tournamentName : parsedTournament.competitionName, rounds : parsedTournament.rounds,tournamentid : parsedTournament.tournamentId, error:undefined, url : req.protocol + '://' + req.get('host') + req.originalUrl});
+                res.render('tournament', { username: (req.oidc.user?.name), tournamentName : parsedTournament.competitionName, rounds : parsedTournament.rounds, table : matchesToTableElement(parsedTournament.rounds, parsedTournament.competitors), tournamentid : parsedTournament.tournamentId, error:undefined, url : req.protocol + '://' + req.get('host') + req.originalUrl});
             }
             else {
-                res.render('tournament-nonuser', { username: (req.oidc.user?.name), tournamentName : parsedTournament.competitionName, rounds : parsedTournament.rounds,tournamentid : parsedTournament.tournamentId});
+                res.render('tournament-nonuser', { username: (req.oidc.user?.name), tournamentName : parsedTournament.competitionName, rounds : parsedTournament.rounds, table: matchesToTableElement(parsedTournament.rounds, parsedTournament.competitors) ,tournamentid : parsedTournament.tournamentId});
             }
         }
         catch (e) {
@@ -73,7 +69,7 @@ tournamentRoute.post('/', requiresAuth(), [
         return
     }
     if (errorsArray.length > 0) {
-        res.render('tournament', { username: (req.oidc.user?.name), tournamentName : parsedTournament?.competitionName, rounds : parsedTournament?.rounds,tournamentid : parsedTournament?.tournamentId, error:errorsArray[0].msg, url : req.protocol + '://' + req.get('host') + req.originalUrl});
+        res.render('tournament', { username: (req.oidc.user?.name), tournamentName : parsedTournament?.competitionName, rounds : parsedTournament?.rounds, table : matchesToTableElement(parsedTournament?.rounds, parsedTournament?.competitors) ,tournamentid : parsedTournament?.tournamentId, error:errorsArray[0].msg, url : req.protocol + '://' + req.get('host') + req.originalUrl});
     }
     for (let match of parsedTournament.rounds){
         if (match.team1 == req.body.team1 && match.team2 == req.body.team2){
@@ -89,7 +85,7 @@ tournamentRoute.post('/', requiresAuth(), [
     }
     catch (e) {
         console.log(e);
-        res.render('tournament', { username: (req.oidc.user?.name), tournamentName : parsedTournament?.competitionName, rounds : parsedTournament?.rounds,tournamentid : parsedTournament?.tournamentId, error: e.message, url: req.protocol + '://' + req.get('host') + req.originalUrl});
+        res.render('tournament', { username: (req.oidc.user?.name), tournamentName : parsedTournament?.competitionName, rounds : parsedTournament?.rounds, table : matchesToTableElement(parsedTournament?.rounds, parsedTournament?.competitors), tournamentid : parsedTournament?.tournamentId, error: e.message, url: req.protocol + '://' + req.get('host') + req.originalUrl});
     }
 });
 

@@ -15,9 +15,9 @@ createRoute.get('/', requiresAuth(), (req, res) => {
 createRoute.post('/', requiresAuth(), [
     // Add validation and sanitization middleware
     body('competitionName', 'Ime natjecanja ne smije biti prazno!').trim().isLength({ min: 1 }).escape(),
-    body('winPoints', 'Bodovi za pobjedu ne smiju biti prazni!').trim().isInt().escape(),
-    body('drawPoints', 'Bodovi za neriješeno ne smiju biti prazni!').trim().isInt().escape(),
-    body('lossPoints', 'Bodovi za poraz ne smiju biti prazni!').trim().isInt().escape(),
+    body('winPoints', 'Bodovi za pobjedu ne smiju biti prazni te moraju biti cijeli broj!').trim().isInt().escape(),
+    body('drawPoints', 'Bodovi za neriješeno ne smiju biti prazni te moraju biti cijeli broj!').trim().isInt().escape(),
+    body('lossPoints', 'Bodovi za poraz ne smiju biti prazni te moraju biti cijeli broj!').trim().isInt().escape(),
     body('competitors', 'Popis natjecatelja ne smije biti prazan!').trim().isLength({ min: 1 }).escape(),
 ],  async (req, res) => {
     const errors = validationResult(req);

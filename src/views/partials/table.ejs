@@ -1,0 +1,51 @@
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 1.2em;
+    }
+    th, td {
+        text-align: left;
+        padding: 8px;
+    }
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+    tr:nth-child(even){background-color: #f2f2f2}
+    tr:hover {background-color: #ddd;}
+</style>
+
+<div class="container p-3">
+    <h3 class="text-center">Tablica</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Team</th>
+                <th>GP</th>
+                <th>W</th>
+                <th>D</th>
+                <th>L</th>
+                <th>GF</th>
+                <th>GA</th>
+                <th>GD</th>
+                <th>PTS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let i = 0; i < table.length; i++) { %>
+                <tr>
+                    <td><b><%= table[i].team %></b></td>
+                    <td><%= table[i].gamesPlayed %></td>
+                    <td><%= table[i].wins %></td>
+                    <td><%= table[i].draws %></td>
+                    <td><%= table[i].losses %></td>
+                    <td><%= table[i].goalsFor %></td>
+                    <td><%= table[i].goalsAgainst %></td>
+                    <td><%= table[i].goalDifference %></td>
+                    <td><b><%= table[i].points %></b></td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
