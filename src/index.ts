@@ -4,6 +4,7 @@ const app = express();
 import {auth, requiresAuth} from 'express-openid-connect';
 import { createRoute } from './routes/create.routes';
 import { tournamentRoute } from './routes/tournament.routes';
+const url = require('url');
 
 require('dotenv').config();
 
@@ -16,7 +17,7 @@ const config = {
     authRequired: false,
     auth0Logout: true,
     secret: process.env.SECRET,
-    baseURL: 'http://localhost:4010',
+    baseURL: process.env.BASE_URL,
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
     issuerBaseURL: 'https://dev-qoz5mzp8da7n1lqw.us.auth0.com',
