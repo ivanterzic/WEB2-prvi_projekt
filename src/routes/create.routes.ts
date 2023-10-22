@@ -26,7 +26,9 @@ createRoute.post('/', requiresAuth(), [
     if (comps.length == 1) {
         comps = req.body.competitors.trim().split(";");
     }
-
+    for (let i = 0; i < comps.length; i++) {
+        comps[i] = comps[i].trim();
+    }
     if (comps.length < 4 || comps.length > 8) {
         errorsArray.push({msg : "Broj natjecatelja mora biti između 4 i 8! Vi ste unijeli " + comps.length + " natjecatelja!"});
     }

@@ -130,9 +130,11 @@ exports.tournamentRoute.post('/', (0, express_openid_connect_1.requiresAuth)(), 
                 if (errorsArray.length > 0) {
                     res.render('tournament', { username: ((_f = req.oidc.user) === null || _f === void 0 ? void 0 : _f.name), picture: ((_g = req.oidc.user) === null || _g === void 0 ? void 0 : _g.picture), tournamentName: parsedTournament === null || parsedTournament === void 0 ? void 0 : parsedTournament.competitionName, rounds: parsedTournament === null || parsedTournament === void 0 ? void 0 : parsedTournament.rounds, table: (0, tournamenthelper_1.matchesToTableElement)(parsedTournament === null || parsedTournament === void 0 ? void 0 : parsedTournament.rounds, parsedTournament === null || parsedTournament === void 0 ? void 0 : parsedTournament.competitors), tournamentid: parsedTournament === null || parsedTournament === void 0 ? void 0 : parsedTournament.tournamentId, error: errorsArray[0].msg, url: req.protocol + '://' + req.get('host') + req.originalUrl });
                 }
+                console.log("TU");
                 for (_i = 0, _a = parsedTournament.rounds; _i < _a.length; _i++) {
                     match = _a[_i];
                     if (match.team1 == req.body.team1 && match.team2 == req.body.team2) {
+                        console.log("nasao tekmu");
                         match.scoreTeam1 = Number(req.body.scoreteam1);
                         match.scoreTeam2 = Number(req.body.scoreteam2);
                         break;

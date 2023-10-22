@@ -42,6 +42,7 @@ var app = express();
 var express_openid_connect_1 = require("express-openid-connect");
 var create_routes_1 = require("./routes/create.routes");
 var tournament_routes_1 = require("./routes/tournament.routes");
+var url = require('url');
 require('dotenv').config();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -50,7 +51,7 @@ var config = {
     authRequired: false,
     auth0Logout: true,
     secret: process.env.SECRET,
-    baseURL: 'http://localhost:4010',
+    baseURL: process.env.DEV_URL,
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
     issuerBaseURL: 'https://dev-qoz5mzp8da7n1lqw.us.auth0.com',

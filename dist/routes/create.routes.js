@@ -60,7 +60,7 @@ exports.createRoute.post('/', (0, express_openid_connect_1.requiresAuth)(), [
     (0, express_validator_1.body)('lossPoints', 'Bodovi za poraz ne smiju biti prazni te moraju biti cijeli broj!').trim().isInt().escape(),
     (0, express_validator_1.body)('competitors', 'Popis natjecatelja ne smije biti prazan!').trim().isLength({ min: 1 }).escape(),
 ], function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var errors, errorsArray, comps, newTournament, sql, result, e_1;
+    var errors, errorsArray, comps, i, newTournament, sql, result, e_1;
     var _a, _b, _c, _d, _e, _f, _g;
     return __generator(this, function (_h) {
         switch (_h.label) {
@@ -70,6 +70,9 @@ exports.createRoute.post('/', (0, express_openid_connect_1.requiresAuth)(), [
                 comps = req.body.competitors.trim().split("\r\n");
                 if (comps.length == 1) {
                     comps = req.body.competitors.trim().split(";");
+                }
+                for (i = 0; i < comps.length; i++) {
+                    comps[i] = comps[i].trim();
                 }
                 if (comps.length < 4 || comps.length > 8) {
                     errorsArray.push({ msg: "Broj natjecatelja mora biti između 4 i 8! Vi ste unijeli " + comps.length + " natjecatelja!" });
