@@ -1,7 +1,10 @@
 <div class="bg-light shadow rounded bottom d-flex flex-wrap h-25 p-3" style="width: 100vw;">
     <div class="container d-flex justify-content-between w-100 flex-wrap">
         <a class="navbar-brand text-dark" href="/">
-            <h1>Tournament Tracker</h1>
+            <div class="d-flex flex-row">
+                <h1 class="ms-3">Tournament Tracker</h1>
+                <img src=" <%= picture %> " alt="avatar" class="rounded-circle ml-3" style="width: 50px; height: 50px;">
+            </div>
             <% if (username) { %>
                 <h6 class="lead">Logged in as <%=username%></h6>
             <% } %>

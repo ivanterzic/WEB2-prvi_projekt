@@ -1,17 +1,62 @@
-
 <!DOCTYPE html>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 <html>
     <head>
-        <title>My EJS Page yea!</title>
+        <title>Profile - Tournament Tracker</title>
     </head>
     <body>
-        <%- include('partials/header', {username : username, /*picture : picture*/}) %>
-        <div class="container d-flex flex-wrap flex-column w-100">
-            <h1>
-                Profil korisnika <%= username %>
-            </h1>
-        </div>
+         <%- include('partials/header', {username : username, picture : picture}) %>
+        <main class="container shadow p-3">   
+        <h2>Profil</h2> 
+            <hr>
+            <div class="row">
+                <div class="col-md-2">
+                    <img  src="<%= picture %>" alt="Profile Picture" class="img-fluid rounded-circle mx-auto d-block">
+                </div>
+                <div class="col-md-8">
+                    <h4><%= username %></h4>
+                    <p style="font-size: 1.2rem;"><strong>Email:</strong> <%= email %></p>
+                    <p style="font-size: 1.2rem;"><strong>Nadimak:</strong> <%= nickname %></p>
+                </div>
+            </div>
+            <hr>
+                <div class="container">
+                    <% if (tournaments.length == 0) { %>
+                        <h3>Nema kreiranih natjecanja!</h3>
+                    <% } else { %>
+                        <h3>Natjecanja:</h3>
+                        <ul>
+                            <% for (var i = 0; i < tournaments.length; i++) { %>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <a href="/tournament?id=<%= tournaments[i].tournamentId %>">
+                                            <h3><%= tournaments[i].competitionName %></h3>
+                                        </a>
+                                        <div style="font-size: 1.5rem;">
+                                            <strong>ID natjecanja:</strong> <%= tournaments[i].tournamentId %><br>
+                                            <strong>Natjecatelji:</strong> <%= tournaments[i].competitors %><br>
+                                            <strong>Bodovni sustav:</strong> <ul>
+                                                <li>Pobjeda: <%=tournaments[i].scoringSystem.winPoints %></li>
+                                                <li>Remi: <%=tournaments[i].scoringSystem.drawPoints %> </li>
+                                                <li>Poraz: <%=tournaments[i].scoringSystem.lossPoints %></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 d-flex justify-content-center align-content-center align-items-center">
+                                        <div style="text-align: right;" class="d-flex justify-content-between">
+                                            <form onsubmit="return confirm('Jeste li sigurni da želite obrisati natjecanje?')" method="post" action="/tournament/delete">
+                                                <input type="text" name="tournamentid" id="tournamentid" value="<%= tournaments[i].tournamentId %> hidden disabled">
+                                                <button type="submit" class="btn btn-danger btn-lg">Obriši</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            <% } %>
+                        </ul>
+                    <% } %>
+                </div>
+        </main>
     </body> 
 </html>
- 

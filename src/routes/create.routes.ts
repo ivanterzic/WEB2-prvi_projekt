@@ -9,7 +9,7 @@ export const createRoute = express.Router();
 createRoute.use(express.urlencoded({ extended: true }));
 createRoute.use(express.static('../data'));
 createRoute.get('/', requiresAuth(), (req, res) => {
-    res.render('create', { username: (req.oidc.user?.name), message : undefined, error_message : undefined, competitionName : undefined, winPoints : undefined, drawPoints : undefined, lossPoints : undefined, competitors : undefined});
+    res.render('create', { username: (req.oidc.user?.name), picture: (req.oidc.user?.picture), message : undefined, error_message : undefined, competitionName : undefined, winPoints : undefined, drawPoints : undefined, lossPoints : undefined, competitors : undefined});
 });
 
 createRoute.post('/', requiresAuth(), [
@@ -33,7 +33,7 @@ createRoute.post('/', requiresAuth(), [
     }
     console.log(errorsArray);
     if (errorsArray.length > 0) {
-        res.render('create', { username: (req.oidc.user?.name), error_message: errorsArray[0].msg, message : undefined, 
+        res.render('create', { username: (req.oidc.user?.name),picture: (req.oidc.user?.picture), error_message: errorsArray[0].msg, message : undefined, 
         competitionName : req.body.competitionName, winPoints : req.body.winPoints, drawPoints : req.body.drawPoints, lossPoints : req.body.lossPoints, competitors : req.body.competitors});
     }
     else {
@@ -57,10 +57,10 @@ createRoute.post('/', requiresAuth(), [
         }
         catch (e) {
             console.log(e);
-            res.render('create', { username: (req.oidc.user.name), error_message: "Greška kod spremanja u bazu podataka!", message : undefined, 
+            res.render('create', { username: (req.oidc.user.name), picture: (req.oidc.user?.picture), error_message: "Greška kod spremanja u bazu podataka!", message : undefined, 
                 competitionName : req.body.competitionName, winPoints : req.body.winPoints, drawPoints : req.body.drawPoints, lossPoints : req.body.lossPoints, competitors : req.body.competitors});
         }
-        res.render('create', { username: (req.oidc.user?.name), error_message : undefined, message : "Natjecanje uspješno kreirano!", competitionName : undefined, winPoints : undefined, drawPoints : undefined, lossPoints : undefined, competitors : undefined});
+        res.render('create', { username: (req.oidc.user?.name), picture: (req.oidc.user?.picture) ,error_message : undefined, message : "Natjecanje uspješno kreirano!", competitionName : undefined, winPoints : undefined, drawPoints : undefined, lossPoints : undefined, competitors : undefined});
     }
     
 });

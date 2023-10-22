@@ -42,18 +42,42 @@ app.get('/', (req, res) => {
         username = req.oidc.user?.name;
         console.log(req.oidc.user)
         res.render('logged-index', { username: username,
-                                      //picture : req.oidc.user?.picture.endsWith('png') ? req.oidc.user?.picture : req.oidc.user.picture+= '.png',
+          picture: (req.oidc.user?.picture)
                                  });
     }
     else {
         res.render('index', { username: username, 
-                              //picture : req.oidc.user?.picture.endsWith('png') ? req.oidc.user?.picture : req.oidc.user.picture+= '.png', 
+          picture: (req.oidc.user?.picture)
                             });
     }
 });
 
-app.get('/profile', requiresAuth(), (req, res) => {
-    res.render('profile', { username: (req.oidc.user?.name)});
+
+import { db } from './db';
+import { Tournament, databaseFileToTournamentParser, matchesToTableElement } from './helpers/tournamenthelper';
+
+app.get('/profile', requiresAuth(), async (req, res) => {
+  let idFromQuery = req.query.code;
+        let query = `SELECT * FROM tournament WHERE tournamentCreator = '${req.oidc.user?.name}' AND tournamentCreatorEmail = '${req.oidc.user?.email}'`;
+        try {
+          console.log(query);
+          const result = await db.query(query, []);
+          let tournaments : any[] = result["rows"]
+          for (let i = 0; i < tournaments.length; i++) {
+              tournaments[i] = databaseFileToTournamentParser(tournaments[i]);
+          }
+          res.render('profile', 
+          { username: (req.oidc.user?.name), 
+            picture: (req.oidc.user?.picture),
+            email : (req.oidc.user?.email),
+            nickname : (req.oidc.user?.nickname),
+            tournaments : tournaments, 
+          });
+        }
+        catch (e) {
+          console.log(e);
+          res.render('tournament-na', { username: (req.oidc.user?.name), picture: (req.oidc.user?.picture) });
+        }
 });
 
 app.get("/sign-up", (req, res) => {
@@ -68,9 +92,7 @@ app.get('/logout', (req, res) => {
     req.oidc.logout();
     res.redirect('/');
 });
-  
-
-// Potencijalno ddati https server ikeyeve ako ce biti problema
+// Potencijalno dodati https server i keyeve ako ce biti problema
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
     console.log('Press Ctrl+C to quit.');

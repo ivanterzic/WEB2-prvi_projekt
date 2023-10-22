@@ -18,15 +18,15 @@ tournamentRoute.get('/', async (req, res) => {
             let tournament = result["rows"][0]
             let parsedTournament = databaseFileToTournamentParser(tournament);
             if (req.oidc.user?.name == parsedTournament.tournamentCreator && req.oidc.user?.email == parsedTournament.tournamentCreatorEmail) {
-                res.render('tournament', { username: (req.oidc.user?.name), tournamentName : parsedTournament.competitionName, rounds : parsedTournament.rounds, table : matchesToTableElement(parsedTournament.rounds, parsedTournament.competitors), tournamentid : parsedTournament.tournamentId, error:undefined, url : req.protocol + '://' + req.get('host') + req.originalUrl});
+                res.render('tournament', { username: (req.oidc.user?.name), picture: (req.oidc.user?.picture), tournamentName : parsedTournament.competitionName, rounds : parsedTournament.rounds, table : matchesToTableElement(parsedTournament.rounds, parsedTournament.competitors), tournamentid : parsedTournament.tournamentId, error:undefined, url : req.protocol + '://' + req.get('host') + req.originalUrl});
             }
             else {
-                res.render('tournament-nonuser', { username: (req.oidc.user?.name), tournamentName : parsedTournament.competitionName, rounds : parsedTournament.rounds, table: matchesToTableElement(parsedTournament.rounds, parsedTournament.competitors) ,tournamentid : parsedTournament.tournamentId});
+                res.render('tournament-nonuser', { username: (req.oidc.user?.name), picture: (req.oidc.user?.picture), tournamentName : parsedTournament.competitionName, rounds : parsedTournament.rounds, table: matchesToTableElement(parsedTournament.rounds, parsedTournament.competitors) ,tournamentid : parsedTournament.tournamentId});
             }
         }
         catch (e) {
             console.log(e);
-            res.render('tournament-na', { username: (req.oidc.user?.name) });
+            res.render('tournament-na', { username: (req.oidc.user?.name), picture: (req.oidc.user?.picture) });
         }
     }
 );
@@ -63,13 +63,13 @@ tournamentRoute.post('/', requiresAuth(), [
     }
     catch (e) {
         console.log(e);
-        res.render('tournament-na', { username: (req.oidc.user?.name)});
+        res.render('tournament-na', { username: (req.oidc.user?.name), picture: (req.oidc.user?.picture)});
     }
     if (req.oidc.user?.name != parsedTournament.tournamentCreator || req.oidc.user?.email != parsedTournament.tournamentCreatorEmail) {
         return
     }
     if (errorsArray.length > 0) {
-        res.render('tournament', { username: (req.oidc.user?.name), tournamentName : parsedTournament?.competitionName, rounds : parsedTournament?.rounds, table : matchesToTableElement(parsedTournament?.rounds, parsedTournament?.competitors) ,tournamentid : parsedTournament?.tournamentId, error:errorsArray[0].msg, url : req.protocol + '://' + req.get('host') + req.originalUrl});
+        res.render('tournament', { username: (req.oidc.user?.name), picture: (req.oidc.user?.picture), tournamentName : parsedTournament?.competitionName, rounds : parsedTournament?.rounds, table : matchesToTableElement(parsedTournament?.rounds, parsedTournament?.competitors) ,tournamentid : parsedTournament?.tournamentId, error:errorsArray[0].msg, url : req.protocol + '://' + req.get('host') + req.originalUrl});
     }
     for (let match of parsedTournament.rounds){
         if (match.team1 == req.body.team1 && match.team2 == req.body.team2){
@@ -85,8 +85,32 @@ tournamentRoute.post('/', requiresAuth(), [
     }
     catch (e) {
         console.log(e);
-        res.render('tournament', { username: (req.oidc.user?.name), tournamentName : parsedTournament?.competitionName, rounds : parsedTournament?.rounds, table : matchesToTableElement(parsedTournament?.rounds, parsedTournament?.competitors), tournamentid : parsedTournament?.tournamentId, error: e.message, url: req.protocol + '://' + req.get('host') + req.originalUrl});
+        res.render('tournament', { username: (req.oidc.user?.name), picture: (req.oidc.user?.picture), tournamentName : parsedTournament?.competitionName, rounds : parsedTournament?.rounds, table : matchesToTableElement(parsedTournament?.rounds, parsedTournament?.competitors), tournamentid : parsedTournament?.tournamentId, error: e.message, url: req.protocol + '://' + req.get('host') + req.originalUrl});
     }
 });
 
-    
+tournamentRoute.post('/delete', requiresAuth(), [
+    body('tournamentid', 'Pokušajte opet!').trim().isLength({ min: 1 }).escape(),
+], async (req, res) => {
+    const errors = validationResult(req);
+    let errorsArray = errors["errors"]
+    if (errorsArray.length > 0) {
+        res.render('tournament', { username: (req.oidc.user?.name), picture: (req.oidc.user?.picture), error:errorsArray[0].msg, url : req.protocol + '://' + req.get('host') + req.originalUrl});
+    }
+    else {
+        let query = `SELECT * FROM tournament WHERE tournamentid = ${req.body.tournamentid}`;
+        let parsedTournament : Tournament = databaseFileToTournamentParser((await db.query(query, []))["rows"][0]);
+        if (req.oidc.user?.name != parsedTournament.tournamentCreator || req.oidc.user?.email != parsedTournament.tournamentCreatorEmail) {
+            return
+        }
+        let tournamentId = req.body.tournamentid;
+        query = `DELETE FROM tournament WHERE tournamentid = ${tournamentId}`;
+        try {
+            const result = await db.query(query, []);
+            res.redirect('/profile');
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+});

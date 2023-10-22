@@ -3,17 +3,17 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 <html>
     <head>
-        <title>My EJS Page yea!</title>
+        <title>Natjecanje - Tournament Tracker</title>
     </head>
     <body>
-        <%- include('partials/header', {username : username, /*picture : picture*/}) %>
+        <%- include('partials/header', {username : username, picture : picture}) %>
         <main class="container shadow p-3 overflow-auto">   
             <div class="overflow-auto border rounded p-2 m-2" style="height: 50vh;">
                 <div>
-                    <h5 class="lead">Tournament share url: <a href="<%=url%>"><%=url%></a></h5>
+                    <h5 class="lead">Link za dijeljenje: <a href="<%=url%>"><%=url%></a></h5>
                 </div>
                 <div>
-                    <h5 class="lead">Tournament code: <%=tournamentid%></h5>
+                    <h5 class="lead">Kod natjecanja: <%=tournamentid%></h5>
                 </div>
                 <% if (error) {
                     %> <h4 class="text-danger"><%= error %></h4> 
