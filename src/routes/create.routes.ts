@@ -26,12 +26,10 @@ createRoute.post('/', requiresAuth(), [
     if (comps.length == 1) {
         comps = req.body.competitors.trim().split(";");
     }
-    console.log(comps);
-    console.log(comps.length);
+
     if (comps.length < 4 || comps.length > 8) {
-        errorsArray.push({msg : "Broj natjecatelja mora biti između 4 i 8!"});
+        errorsArray.push({msg : "Broj natjecatelja mora biti između 4 i 8! Vi ste unijeli " + comps.length + " natjecatelja!"});
     }
-    console.log(errorsArray);
     if (errorsArray.length > 0) {
         res.render('create', { username: (req.oidc.user?.name),picture: (req.oidc.user?.picture), error_message: errorsArray[0].msg, message : undefined, 
         competitionName : req.body.competitionName, winPoints : req.body.winPoints, drawPoints : req.body.drawPoints, lossPoints : req.body.lossPoints, competitors : req.body.competitors});
@@ -53,10 +51,10 @@ createRoute.post('/', requiresAuth(), [
         const sql = `INSERT INTO tournament (tournamentCreator, tournamentCreatorEmail, tournamentName, competitors, scoringSystem, rounds) VALUES ('${req.oidc.user.name}', '${req.oidc.user.email}' , '${req.body.competitionName.trim()}', '${comps}', '${JSON.stringify(newTournament.scoringSystem)}', '${JSON.stringify(newTournament.rounds)}')`;
         try {
             const result = await db.query(sql, []);
-            console.log(result)
+
         }
         catch (e) {
-            console.log(e);
+
             res.render('create', { username: (req.oidc.user.name), picture: (req.oidc.user?.picture), error_message: "Greška kod spremanja u bazu podataka!", message : undefined, 
                 competitionName : req.body.competitionName, winPoints : req.body.winPoints, drawPoints : req.body.drawPoints, lossPoints : req.body.lossPoints, competitors : req.body.competitors});
         }

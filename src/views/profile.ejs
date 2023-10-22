@@ -30,7 +30,7 @@
                                 <hr>
                                 <div class="row">
                                     <div class="col-md-8">
-                                        <a href="/tournament?id=<%= tournaments[i].tournamentId %>">
+                                        <a href="/tournament?code=<%= tournaments[i].tournamentId %>" class="text-dark">
                                             <h3><%= tournaments[i].competitionName %></h3>
                                         </a>
                                         <div style="font-size: 1.5rem;">
@@ -46,7 +46,7 @@
                                     <div class="col-md-4 d-flex justify-content-center align-content-center align-items-center">
                                         <div style="text-align: right;" class="d-flex justify-content-between">
                                             <form onsubmit="return confirm('Jeste li sigurni da želite obrisati natjecanje?')" method="post" action="/tournament/delete">
-                                                <input type="text" name="tournamentid" id="tournamentid" value="<%= tournaments[i].tournamentId %> hidden disabled">
+                                                <input type="text" name="tournamentid" id="tournamentid" value="<%= tournaments[i].tournamentId %>"" hidden disabled>
                                                 <button type="submit" class="btn btn-danger btn-lg">Obriši</button>
                                             </form>
                                         </div>

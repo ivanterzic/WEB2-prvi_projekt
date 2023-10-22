@@ -60,7 +60,6 @@ app.get('/profile', requiresAuth(), async (req, res) => {
   let idFromQuery = req.query.code;
         let query = `SELECT * FROM tournament WHERE tournamentCreator = '${req.oidc.user?.name}' AND tournamentCreatorEmail = '${req.oidc.user?.email}'`;
         try {
-          console.log(query);
           const result = await db.query(query, []);
           let tournaments : any[] = result["rows"]
           for (let i = 0; i < tournaments.length; i++) {
