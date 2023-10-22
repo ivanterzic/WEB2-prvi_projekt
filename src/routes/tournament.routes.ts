@@ -92,10 +92,12 @@ tournamentRoute.post('/', requiresAuth(), [
 tournamentRoute.post('/delete', requiresAuth(), [
     body('tournamentid', 'Pokušajte opet!').trim().isLength({ min: 1 }).escape(),
 ], async (req, res) => {
+    console.log(req.body);
     const errors = validationResult(req);
     let errorsArray = errors["errors"]
     if (errorsArray.length > 0) {
-        res.render('tournament', { username: (req.oidc.user?.name), picture: (req.oidc.user?.picture), error:errorsArray[0].msg, url : req.protocol + '://' + req.get('host') + req.originalUrl});
+        console.log(errorsArray[0].msg);
+        res.redirect('/profile');
     }
     else {
         let query = `SELECT * FROM tournament WHERE tournamentid = ${req.body.tournamentid}`;

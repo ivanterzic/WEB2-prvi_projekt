@@ -160,36 +160,38 @@ exports.tournamentRoute.post('/delete', (0, express_openid_connect_1.requiresAut
     (0, express_validator_1.body)('tournamentid', 'Pokušajte opet!').trim().isLength({ min: 1 }).escape(),
 ], function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var errors, errorsArray, query_2, parsedTournament, _a, tournamentId, result, e_4;
-    var _b, _c, _d, _e;
-    return __generator(this, function (_f) {
-        switch (_f.label) {
+    var _b, _c;
+    return __generator(this, function (_d) {
+        switch (_d.label) {
             case 0:
+                console.log(req.body);
                 errors = (0, express_validator_1.validationResult)(req);
                 errorsArray = errors["errors"];
                 if (!(errorsArray.length > 0)) return [3 /*break*/, 1];
-                res.render('tournament', { username: ((_b = req.oidc.user) === null || _b === void 0 ? void 0 : _b.name), picture: ((_c = req.oidc.user) === null || _c === void 0 ? void 0 : _c.picture), error: errorsArray[0].msg, url: req.protocol + '://' + req.get('host') + req.originalUrl });
+                console.log(errorsArray[0].msg);
+                res.redirect('/profile');
                 return [3 /*break*/, 6];
             case 1:
                 query_2 = "SELECT * FROM tournament WHERE tournamentid = ".concat(req.body.tournamentid);
                 _a = tournamenthelper_1.databaseFileToTournamentParser;
                 return [4 /*yield*/, db_1.db.query(query_2, [])];
             case 2:
-                parsedTournament = _a.apply(void 0, [(_f.sent())["rows"][0]]);
-                if (((_d = req.oidc.user) === null || _d === void 0 ? void 0 : _d.name) != parsedTournament.tournamentCreator || ((_e = req.oidc.user) === null || _e === void 0 ? void 0 : _e.email) != parsedTournament.tournamentCreatorEmail) {
+                parsedTournament = _a.apply(void 0, [(_d.sent())["rows"][0]]);
+                if (((_b = req.oidc.user) === null || _b === void 0 ? void 0 : _b.name) != parsedTournament.tournamentCreator || ((_c = req.oidc.user) === null || _c === void 0 ? void 0 : _c.email) != parsedTournament.tournamentCreatorEmail) {
                     return [2 /*return*/];
                 }
                 tournamentId = req.body.tournamentid;
                 query_2 = "DELETE FROM tournament WHERE tournamentid = ".concat(tournamentId);
-                _f.label = 3;
+                _d.label = 3;
             case 3:
-                _f.trys.push([3, 5, , 6]);
+                _d.trys.push([3, 5, , 6]);
                 return [4 /*yield*/, db_1.db.query(query_2, [])];
             case 4:
-                result = _f.sent();
+                result = _d.sent();
                 res.redirect('/profile');
                 return [3 /*break*/, 6];
             case 5:
-                e_4 = _f.sent();
+                e_4 = _d.sent();
                 console.log(e_4);
                 return [3 /*break*/, 6];
             case 6: return [2 /*return*/];

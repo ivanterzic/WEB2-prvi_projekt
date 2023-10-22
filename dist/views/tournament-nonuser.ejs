@@ -6,7 +6,8 @@
     </head>
     <body>
         <%- include('partials/header', {username : username, picture : picture}) %>
-        <main class="container shadow p-3" style="height: 80vh;">   
+        <main class="container shadow p-3">  
+            <%- include('partials/table', {table:table}) %> 
             <div class="overflow-auto" style="height: 50vh;">
                 <% for (round of rounds) { %>
                     <div>
@@ -20,7 +21,7 @@
                                 <div class="d-flex flex-row justify-content-around w-75">
                                     <div class="d-flex flex-row justify-content-center m-2 w-25">
                                         <div class="form-check-label">
-                                            <span style="font-size: 1.2em;"><%=round.team1%></span>
+                                            <span><%=round.team1%></span>
                                         </div>
                                     </div>
                                     <div class="d-flex flex-row justify-content-center m-2 w-50">
@@ -33,7 +34,7 @@
                                     </div>
                                     <div class="d-flex flex-row justify-content-center m-2 w-25">
                                         <div class="form-check-label">
-                                            <span style="font-size: 1.2em;"><%=round.team2%></span>
+                                            <span><%=round.team2%></span>
                                         </div>
                                     </div>
                                 </div>
@@ -45,7 +46,7 @@
                     </div>
                 <% } %>
             </div>
-            <%- include('partials/table', {table:table}) %>
+            
         </main>
     </body> 
 </html>
