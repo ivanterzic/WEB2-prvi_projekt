@@ -70,7 +70,8 @@ tournamentRoute.post('/', requiresAuth(), [
         return
     }
     if (errorsArray.length > 0) {
-        res.redirect(`/tournament?code=${req.body.tournamentid}`);
+        res.render('tournament', { username: (req.oidc.user?.name), picture: (req.oidc.user?.picture), tournamentName : parsedTournament?.competitionName, rounds : parsedTournament?.rounds, table : matchesToTableElement(parsedTournament?.rounds, parsedTournament?.competitors) ,tournamentid : parsedTournament?.tournamentId, error:errorsArray[0].msg, url : req.protocol + '://' + req.get('host') + req.originalUrl});
+        return;
     }
     for (let match of parsedTournament.rounds){
         if (match.team1 == req.body.team1 && match.team2 == req.body.team2){
