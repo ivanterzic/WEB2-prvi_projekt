@@ -70,7 +70,7 @@ tournamentRoute.post('/', requiresAuth(), [
         return
     }
     if (errorsArray.length > 0) {
-        alert(errorsArray[0].msg);
+        res.render('tournament', { username: (req.oidc.user?.name), picture: (req.oidc.user?.picture), tournamentName : parsedTournament?.competitionName, rounds : parsedTournament?.rounds, table : matchesToTableElement(parsedTournament?.rounds, parsedTournament?.competitors) ,tournamentid : parsedTournament?.tournamentId, error:errorsArray[0].msg, url : req.protocol + '://' + req.get('host') + req.originalUrl + `?code=${req.body.tournamentid}`});
         return;
     }
     for (let match of parsedTournament.rounds){
@@ -86,7 +86,8 @@ tournamentRoute.post('/', requiresAuth(), [
         res.redirect(`/tournament?code=${req.body.tournamentid}`);
     }
     catch (e) {
-        alert(e);
+        console.log(e);
+        res.render('tournament', { username: (req.oidc.user?.name), picture: (req.oidc.user?.picture), tournamentName : parsedTournament?.competitionName, rounds : parsedTournament?.rounds, table : matchesToTableElement(parsedTournament?.rounds, parsedTournament?.competitors), tournamentid : parsedTournament?.tournamentId, error: e.message, url: req.protocol + '://' + req.get('host') + req.originalUrl + `?code=${req.body.tournamentid}`});
     }
 });
 
@@ -113,7 +114,7 @@ tournamentRoute.post('/delete', requiresAuth(), [
             res.redirect('/profile');
         }
         catch (e) {
-            alert(e);
+            console.log(e);
         }
     }
 });
